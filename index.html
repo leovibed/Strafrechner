@@ -1,1 +1,646 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strafrechner - Special Weapons and Tactics</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0a0c10;
+            --bg-card: #12161f;
+            --bg-input: #1b202e;
+            --bg-table-header: #1e293b;
+            --bg-table-hover: #1f293d;
+            --accent-emerald: #10b981;
+            --accent-emerald-hover: #059669;
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-red-hover: #dc2626;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #2e374a;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Header Area */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        header p.subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-emerald);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Controls Card */
+        .controls-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .controls-top {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-emerald);
+        }
+
+        .discount-inputs {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .discount-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--bg-input);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .discount-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .discount-group input {
+            width: 60px;
+            background: transparent;
+            border: none;
+            color: var(--accent-emerald);
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+        }
+
+        .controls-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-emerald {
+            background-color: var(--accent-emerald);
+            color: #000;
+        }
+
+        .btn-emerald:hover {
+            background-color: var(--accent-emerald-hover);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-red {
+            background-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn-red:hover {
+            background-color: var(--accent-red-hover);
+        }
+
+        .btn-blue {
+            background-color: var(--accent-blue);
+            color: #fff;
+        }
+
+        .btn-blue:hover {
+            opacity: 0.9;
+        }
+
+        /* Table Area */
+        .table-container {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-table-header);
+            color: var(--text-muted);
+            padding: 14px 18px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        tr.law-row {
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        tr.law-row:hover {
+            background-color: var(--bg-table-hover);
+        }
+
+        tr.law-row.selected {
+            background-color: rgba(16, 185, 129, 0.15);
+        }
+
+        tr.law-row.selected td:first-child {
+            border-left: 4px solid var(--accent-emerald);
+        }
+
+        .badge-he {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge-money {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+
+        /* Modal / Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 550px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .summary-box {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .details-list {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.88rem;
+        }
+
+        .details-item {
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .details-item span {
+            color: var(--accent-emerald);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Strafrechner</h1>
+            <p class="subtitle">Special Weapons and Tactics</p>
+        </header>
+
+        <!-- Controls Card -->
+        <div class="controls-card">
+            <div class="controls-top">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Suche nach Paragraf oder Straftat...">
+                </div>
+                <div class="discount-inputs">
+                    <div class="discount-group">
+                        <label for="discountMoney">Rabatt Geldstrafe (%):</label>
+                        <input type="number" id="discountMoney" min="0" max="100" value="0">
+                    </div>
+                    <div class="discount-group">
+                        <label for="discountHE">Rabatt HE (%):</label>
+                        <input type="number" id="discountHE" min="0" max="100" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-bottom">
+                <button class="btn btn-red" id="resetBtn"><i class="fa-solid fa-rotate-right"></i> Zurücksetzen</button>
+                <button class="btn btn-emerald" id="calcBtn"><i class="fa-solid fa-calculator"></i> Berechnen</button>
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">§</th>
+                        <th style="width: 55%;">Straftatbestand</th>
+                        <th style="width: 15%;">Geldstrafe</th>
+                        <th style="width: 15%;">Hafteinheiten</th>
+                    </tr>
+                </thead>
+                <tbody id="lawTableBody">
+                    <!-- Dynamic Data Insertion -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Calculation Results -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-card">
+            <div class="modal-header">Berechnungsergebnisse</div>
+            
+            <div class="summary-box">
+                <div class="summary-item">
+                    <span>Gesamtes Bußgeld:</span>
+                    <strong class="badge-money" id="resMoney">0$</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Gesamte Hafteinheiten:</span>
+                    <strong class="badge-he" id="resHE">0 HE</strong>
+                </div>
+
+                <div class="details-list" id="detailsContainer" style="display: none;">
+                    <!-- Details Dynamic -->
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-blue" id="toggleDetailsBtn"><i class="fa-solid fa-eye"></i> Details anzeigen</button>
+                <button class="btn btn-emerald" id="copyBtn"><i class="fa-solid fa-copy"></i> Strafen kopieren</button>
+                <button class="btn btn-red" id="closeModalBtn">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discrete Footer -->
+    <footer>
+        made by Stitch
+    </footer>
+
+    <script>
+        // Database of Crimes (§38 to §94)
+        const laws = [
+            { para: "§ 38", name: "Öffentliche Aufforderung zu Straftaten", money: 20000, he: 20 },
+            { para: "§ 39", name: "Widerstand gegen Vollstreckungsbeamte", money: 20000, he: 20 },
+            { para: "§ 40", name: "Hausfriedensbruch", money: 20000, he: 20 },
+            { para: "§ 41", name: "Landfriedensbruch", money: 100000, he: 100 },
+            { para: "§ 42", name: "Anleitung zu Straftaten", money: 20000, he: 20 },
+            { para: "§ 43", name: "Amtsanmaßung", money: 50000, he: 50 },
+            { para: "§ 44", name: "Missbrauch von Titeln, Berufsbezeichnungen", money: 25000, he: 30 },
+            { para: "§ 45", name: "Belohnung und Billigung von Straftaten", money: 20000, he: 20 },
+            { para: "§ 46", name: "Missbrauch von Notrufen", money: 40000, he: 0 },
+            { para: "§ 47", name: "Vortäuschen einer Straftat", money: 15000, he: 15 },
+            { para: "§ 48", name: "Tragen einer Vermummung", money: 10000, he: 0 },
+            { para: "§ 49", name: "Unerlaubte Versammlung / Menschenmengen", money: 30000, he: 35 },
+            { para: "§ 50", name: "Betreten einer temporären Sperrzone", money: 15000, he: 15 },
+            { para: "§ 51", name: "Eindringen in militärische Sperrzonen", money: 30000, he: 30 },
+            { para: "§ 52", name: "Verweigerung der Identitätsfeststellung", money: 15000, he: 15 },
+            { para: "§ 53", name: "Ausbruch aus staatlichen Einrichtungen", money: 20000, he: 60 },
+            { para: "§ 54", name: "Fischwilderei", money: 15000, he: 0 },
+            { para: "§ 55", name: "Brandstiftung", money: 30000, he: 30 },
+            { para: "§ 56", name: "Herbeiführen einer Sprengstoffexplosion", money: 60000, he: 60 },
+            { para: "§ 57", name: "Besitz / Herstellung von Sprengstoff", money: 30000, he: 30 },
+            { para: "§ 58", name: "Gefährlicher Eingriff in Bahn-/Schiffs-/Luftverkehr", money: 30000, he: 30 },
+            { para: "§ 59", name: "Mord", money: 200000, he: 200 },
+            { para: "§ 60", name: "Totschlag", money: 130000, he: 100 },
+            { para: "§ 61", name: "Aussetzung", money: 30000, he: 30 },
+            { para: "§ 62", name: "Fahrlässige Tötung", money: 60000, he: 50 },
+            { para: "§ 63", name: "Unterlassene Hilfeleistung", money: 10000, he: 0 },
+            { para: "§ 64", name: "Körperverletzung", money: 15000, he: 10 },
+            { para: "§ 65", name: "Gefährliche Körperverletzung", money: 35000, he: 30 },
+            { para: "§ 66", name: "Schwere Körperverletzung", money: 40000, he: 40 },
+            { para: "§ 67", name: "Zwangsheirat", money: 40000, he: 30 },
+            { para: "§ 68", name: "Nachstellung (Stalking)", money: 25000, he: 30 },
+            { para: "§ 69", name: "Freiheitsberaubung", money: 30000, he: 30 },
+            { para: "§ 70", name: "Nötigung", money: 30000, he: 15 },
+            { para: "§ 71", name: "Bedrohung", money: 10000, he: 0 },
+            { para: "§ 72", name: "Geiselnahme", money: 60000, he: 60 },
+            { para: "§ 73", name: "Verletzung der Vertraulichkeit des Wortes", money: 30000, he: 0 },
+            { para: "§ 74", name: "Verletzung des höchstpersönlichen Lebensbereichs", money: 15000, he: 25 },
+            { para: "§ 75", name: "Offenbarung von Staatsgeheimnissen", money: 60000, he: 60 },
+            { para: "§ 76", name: "Betrug", money: 50000, he: 0 },
+            { para: "§ 77", name: "Sachbeschädigung", money: 25000, he: 0 },
+            { para: "§ 78", name: "Diebstahl", money: 20000, he: 15 },
+            { para: "§ 79", name: "Unterschlagung", money: 10000, he: 10 },
+            { para: "§ 80", name: "Raub / Überfall", money: 40000, he: 30 },
+            { para: "§ 81", name: "Erpressung", money: 30000, he: 30 },
+            { para: "§ 82", name: "Strafvereitelung", money: 30000, he: 30 },
+            { para: "§ 83", name: "Urkundenfälschung", money: 80000, he: 30 },
+            { para: "§ 84", name: "Verschaffen falscher amtlicher Ausweise", money: 95000, he: 30 },
+            { para: "§ 85", name: "Bestechung", money: 40000, he: 40 },
+            { para: "§ 86", name: "Wucher", money: 40000, he: 0 },
+            { para: "§ 87", name: "Schwarzgeldwäsche", money: 40000, he: 30 },
+            { para: "§ 88", name: "Schwarzgeldbesitz", money: 30000, he: 25 },
+            { para: "§ 89", name: "Falsche uneidliche Aussage", money: 50000, he: 40 },
+            { para: "§ 90", name: "Meineid", money: 100000, he: 100 },
+            { para: "§ 91", name: "Verleitung zur Falschaussage", money: 25000, he: 20 },
+            { para: "§ 92", name: "Falsche Verdächtigung", money: 40000, he: 40 },
+            { para: "§ 93", name: "Beleidigung", money: 10000, he: 0 },
+            { para: "§ 94", name: "Üble Nachrede", money: 25000, he: 25 }
+        ];
+
+        let selectedIndices = new Set();
+
+        // Elements
+        const tableBody = document.getElementById('lawTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const discountMoneyInput = document.getElementById('discountMoney');
+        const discountHEInput = document.getElementById('discountHE');
+        const calcBtn = document.getElementById('calcBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        const modal = document.getElementById('resultModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const toggleDetailsBtn = document.getElementById('toggleDetailsBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        
+        const resMoney = document.getElementById('resMoney');
+        const resHE = document.getElementById('resHE');
+        const detailsContainer = document.getElementById('detailsContainer');
+
+        // Render Table
+        function renderTable(filter = "") {
+            tableBody.innerHTML = "";
+            laws.forEach((law, index) => {
+                if (law.para.toLowerCase().includes(filter.toLowerCase()) || 
+                    law.name.toLowerCase().includes(filter.toLowerCase())) {
+                    
+                    const row = document.createElement('tr');
+                    row.className = `law-row ${selectedIndices.has(index) ? 'selected' : ''}`;
+                    row.onclick = () => toggleSelect(index, row);
+
+                    row.innerHTML = `
+                        <td><strong>${law.para}</strong></td>
+                        <td>${law.name}</td>
+                        <td class="badge-money">${law.money.toLocaleString('de-DE')}$</td>
+                        <td><span class="badge-he">${law.he} HE</span></td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        }
+
+        // Toggle Selection
+        function toggleSelect(index, rowElement) {
+            if (selectedIndices.has(index)) {
+                selectedIndices.delete(index);
+                rowElement.classList.remove('selected');
+            } else {
+                selectedIndices.add(index);
+                rowElement.classList.add('selected');
+            }
+        }
+
+        // Search Filter
+        searchInput.addEventListener('input', (e) => {
+            renderTable(e.target.value);
+        });
+
+        // Calculate
+        calcBtn.addEventListener('click', () => {
+            let totalMoney = 0;
+            let totalHE = 0;
+            let detailsHTML = "";
+
+            const discMoney = Math.min(100, Math.max(0, parseFloat(discountMoneyInput.value) || 0));
+            const discHE = Math.min(100, Math.max(0, parseFloat(discountHEInput.value) || 0));
+
+            let count = 1;
+            selectedIndices.forEach(index => {
+                const law = laws[index];
+                totalMoney += law.money;
+                totalHE += law.he;
+
+                detailsHTML += `
+                    <div class="details-item">
+                        ${count++}. <strong>${law.para}</strong> - ${law.name}: <span>(${law.money.toLocaleString('de-DE')}$, ${law.he} HE)</span>
+                    </div>
+                `;
+            });
+
+            // Apply discounts
+            totalMoney = totalMoney * (1 - discMoney / 100);
+            totalHE = totalHE * (1 - discHE / 100);
+
+            resMoney.innerText = `${Math.round(totalMoney).toLocaleString('de-DE')}$`;
+            resHE.innerText = `${Math.round(totalHE)} HE`;
+            
+            detailsContainer.innerHTML = detailsHTML || "<div class='details-item'>Keine Straftaten ausgewählt.</div>";
+
+            modal.classList.add('active');
+        });
+
+        // Reset
+        resetBtn.addEventListener('click', () => {
+            selectedIndices.clear();
+            discountMoneyInput.value = 0;
+            discountHEInput.value = 0;
+            searchInput.value = "";
+            renderTable();
+        });
+
+        // Toggle Details
+        toggleDetailsBtn.addEventListener('click', () => {
+            if (detailsContainer.style.display === "none") {
+                detailsContainer.style.display = "block";
+                toggleDetailsBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Details ausblenden';
+            } else {
+                detailsContainer.style.display = "none";
+                toggleDetailsBtn.innerHTML = '<i class="fa-solid fa-eye"></i> Details anzeigen';
+            }
+        });
+
+        // Copy Results to Clipboard
+        copyBtn.addEventListener('click', () => {
+            let textToCopy = `=== STRAFRECHNER SW&T ===\n`;
+            textToCopy += `Gesamt Bußgeld: ${resMoney.innerText}\n`;
+            textToCopy += `Gesamt HE: ${resHE.innerText}\n\n`;
+            textToCopy += `Ausgewählte Straftaten:\n`;
+
+            let count = 1;
+            selectedIndices.forEach(index => {
+                const law = laws[index];
+                textToCopy += `${count++}. ${law.para} ${law.name} (${law.money}$, ${law.he} HE)\n`;
+            });
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopiert!';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                }, 1500);
+            });
+        });
+
+        // Close Modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Initialize
+        renderTable();
+    </script>
+</body>
+</html>
