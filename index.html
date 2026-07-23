@@ -48,13 +48,12 @@
             width: 100%;
         }
 
-        /* Header Area */
+        /* Header Area - Fixed Layout for Left Logo & Centered Title */
         header {
-            display: flex;
+            display: grid;
+            grid-template-columns: 80px 1fr 80px;
             align-items: center;
-            justify-content: space-between;
             margin-bottom: 25px;
-            position: relative;
         }
 
         .header-logo {
@@ -65,7 +64,6 @@
 
         .header-title {
             text-align: center;
-            flex-grow: 1;
         }
 
         .header-title h1 {
@@ -82,10 +80,6 @@
             letter-spacing: 2px;
             margin-top: 5px;
             text-transform: uppercase;
-        }
-
-        .header-placeholder {
-            width: 80px; /* Balancing the layout */
         }
 
         /* Controls Card */
@@ -298,7 +292,7 @@
             font-weight: 600;
         }
 
-        /* Modal / Overlay */
+        /* Modal / Overlay Enlarged */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -325,8 +319,8 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            width: 90%;
-            max-width: 600px;
+            width: 95%;
+            max-width: 850px; /* Vergrößerte Breite */
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
@@ -359,19 +353,22 @@
             margin-bottom: 0;
         }
 
+        /* Details list adjusted for single-line display */
         .details-list {
-            max-height: 220px;
+            max-height: 380px; /* Vergrößerte Höhe */
             overflow-y: auto;
+            overflow-x: auto;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px dashed var(--border-color);
-            font-size: 0.88rem;
+            font-size: 0.9rem;
         }
 
         .details-item {
             color: var(--text-main);
             margin-bottom: 8px;
             line-height: 1.4;
+            white-space: nowrap; /* Erzwingt alles in eine Zeile */
         }
 
         .details-item span.highlight {
@@ -405,7 +402,7 @@
                 <h1>Strafrechner</h1>
                 <p class="subtitle">Special Weapons and Tactics</p>
             </div>
-            <div class="header-placeholder"></div>
+            <div></div> <!-- Platzhalter für Symmetrie -->
         </header>
 
         <!-- Controls Card -->
