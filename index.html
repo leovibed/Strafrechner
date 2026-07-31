@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strafrechner - Special Weapons and Tactics</title>
+    <title>Strafrechner - Narco City Police Department</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -60,6 +60,7 @@
             width: 80px;
             height: 80px;
             object-fit: contain;
+            border-radius: 50%;
         }
 
         .header-title {
@@ -75,7 +76,7 @@
 
         .header-title p.subtitle {
             font-size: 0.95rem;
-            color: var(--accent-emerald);
+            color: var(--accent-blue);
             font-weight: 600;
             letter-spacing: 2px;
             margin-top: 5px;
@@ -126,7 +127,7 @@
         }
 
         .search-box input:focus {
-            border-color: var(--accent-emerald);
+            border-color: var(--accent-blue);
         }
 
         .discount-inputs {
@@ -244,7 +245,7 @@
 
         tr.category-row td {
             background-color: var(--bg-category);
-            color: var(--accent-emerald);
+            color: var(--accent-blue);
             font-weight: 700;
             font-size: 1rem;
             letter-spacing: 1px;
@@ -262,11 +263,11 @@
         }
 
         tr.law-row.selected {
-            background-color: rgba(16, 185, 129, 0.15);
+            background-color: rgba(59, 130, 246, 0.15);
         }
 
         tr.law-row.selected td:first-child {
-            border-left: 4px solid var(--accent-emerald);
+            border-left: 4px solid var(--accent-blue);
         }
 
         .badge-he {
@@ -332,6 +333,7 @@
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
+            color: var(--accent-blue);
         }
 
         .summary-box {
@@ -397,10 +399,10 @@
 
     <div class="container">
         <header>
-            <img src="LOGO SWAT TRANSPARENT.png" alt="SWAT Logo" class="header-logo" onerror="this.style.visibility='hidden'">
+            <img src="image_19_2.jpg" alt="NCPD Logo" class="header-logo" onerror="this.style.visibility='hidden'">
             <div class="header-title">
                 <h1>Strafrechner</h1>
-                <p class="subtitle">Special Weapons and Tactics</p>
+                <p class="subtitle">Narco City Police Department</p>
             </div>
             <div></div> <!-- Platzhalter für Symmetrie -->
         </header>
@@ -426,7 +428,7 @@
 
             <div class="controls-bottom">
                 <button class="btn btn-red" id="resetBtn"><i class="fa-solid fa-rotate-right"></i> Zurücksetzen</button>
-                <button class="btn btn-emerald" id="calcBtn"><i class="fa-solid fa-calculator"></i> Berechnen</button>
+                <button class="btn btn-blue" id="calcBtn"><i class="fa-solid fa-calculator"></i> Berechnen</button>
             </div>
         </div>
 
@@ -470,7 +472,7 @@
 
             <div class="modal-actions">
                 <button class="btn btn-blue" id="toggleDetailsBtn"><i class="fa-solid fa-eye"></i> Details anzeigen</button>
-                <button class="btn btn-emerald" id="copyBtn"><i class="fa-solid fa-copy"></i> Strafen kopieren</button>
+                <button class="btn btn-blue" id="copyBtn"><i class="fa-solid fa-copy"></i> Strafen kopieren</button>
                 <button class="btn btn-red" id="closeModalBtn">Schließen</button>
             </div>
         </div>
@@ -484,7 +486,46 @@
     <script>
         // Database of Crimes Categorized
         const laws = [
-            // StGB
+            // Strafgesetzbuch (StGB) Ergänzungen (§ 1 - § 37)
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 1", code: "StGB", name: "Keine Strafe ohne Gesetz", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 2", code: "StGB", name: "Geltungsbereich für Inlands- und Auslandstaten", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 3", code: "StGB", name: "Begehung durch Unterlassen", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 4", code: "StGB", name: "Vorsätzliches und fahrlässiges Handeln", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 5", code: "StGB", name: "Irrtum über Umstände und Rechtmäßigkeit", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 6", code: "StGB", name: "Notwehr und Notstand", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 7", code: "StGB", name: "Schuldfähigkeit und Zurechnungsfähigkeit", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 8", code: "StGB", name: "Versuch einer Straftat", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 9", code: "StGB", name: "Rücktritt vom Versuch", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 10", code: "StGB", name: "Täterschaft und Mittelbare Täterschaft", money: 15000, he: 15, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 11", code: "StGB", name: "Mittäterschaft", money: 15000, he: 15, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 12", code: "StGB", name: "Anstiftung", money: 20000, he: 20, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 13", code: "StGB", name: "Beihilfe", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 14", code: "StGB", name: "Strafe und Bemessungsgrundsätze", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 15", code: "StGB", name: "Geldstrafe und Ersatzfreiheitsstrafe", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 16", code: "StGB", name: "Freiheitsstrafe und Hafteinheiten", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 17", code: "StGB", name: "Bewährung und Führungsauflagen", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 18", code: "StGB", name: "Verfall und Einziehung von Gegenständen", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 19", code: "StGB", name: "Verjährung von Straftaten", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 20", code: "StGB", name: "Friedensverrat und Gefährdung des Staates", money: 150000, he: 150, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 21", code: "StGB", name: "Gefährdung der äußeren Sicherheit", money: 100000, he: 100, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 22", code: "StGB", name: "Landesverrat", money: 200000, he: 200, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 23", code: "StGB", name: "Offenbarung von Staatsgeheimnissen", money: 80000, he: 80, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 24", code: "StGB", name: "Angriff auf Verfassungsorgane", money: 120000, he: 120, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 25", code: "StGB", name: "Sabotage an kritischer Infrastruktur", money: 90000, he: 90, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 26", code: "StGB", name: "Nötigung von Verfassungsorganen", money: 80000, he: 80, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 27", code: "StGB", name: "Wahlfälschung und Wählernötigung", money: 50000, he: 50, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 28", code: "StGB", name: "Wahlbehinderung", money: 30000, he: 30, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 29", code: "StGB", name: "Störung von Amtshandlungen", money: 15000, he: 15, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 30", code: "StGB", name: "Gefährlicher Eingriff in den Bahn-, Schiffs- und Luftverkehr", money: 40000, he: 40, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 31", code: "StGB", name: "Störung öffentlicher Betriebe", money: 25000, he: 25, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 32", code: "StGB", name: "Beschädigung von Versorgungsanlagen", money: 35000, he: 35, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 33", code: "StGB", name: "Gefährdung der öffentlichen Ordnung", money: 15000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 34", code: "StGB", name: "Bildung krimineller Vereinigungen", money: 100000, he: 100, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 35", code: "StGB", name: "Bildung terroristischer Vereinigungen", money: 200000, he: 200, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 36", code: "StGB", name: "Unterstützung krimineller Vereinigungen", money: 50000, he: 50, court: true },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 37", code: "StGB", name: "Gefährdung des öffentlichen Friedens", money: 20000, he: 20, court: false },
+            
+            // StGB ab § 38
             { cat: "Strafgesetzbuch (StGB)", para: "§ 38 Abs. 2", code: "StGB", name: "Öffentliche Aufforderung zu Straftaten", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 39 Abs. 1", code: "StGB", name: "Widerstand gegen Vollstreckungsbeamte", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 40 Abs. 1", code: "StGB", name: "Hausfriedensbruch", money: 20000, he: 20, court: false },
@@ -743,7 +784,7 @@
 
         // Copy Result Summary
         copyBtn.addEventListener('click', () => {
-            let summaryText = `--- STRAFRECHNER SW&T ---\n`;
+            let summaryText = `--- STRAFRECHNER NCPD ---\n`;
             selectedIndices.forEach(index => {
                 const item = laws[index];
                 summaryText += `${item.para} ${item.code} - ${item.name} (${item.money.toLocaleString('de-DE')}$ | ${item.he} HE)\n`;
