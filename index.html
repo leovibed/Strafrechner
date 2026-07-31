@@ -3,751 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strafrechner - Special Weapons and Tactics</title>
-    <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Strafrechner - Narco City Police Department</title>
     <style>
         :root {
-            --bg-main: #0a0c10;
-            --bg-card: #12161f;
-            --bg-input: #1b202e;
-            --bg-table-header: #1e293b;
-            --bg-table-hover: #1f293d;
-            --bg-category: #0f172a;
-            --accent-emerald: #10b981;
-            --accent-emerald-hover: #059669;
-            --accent-blue: #3b82f6;
-            --accent-red: #ef4444;
-            --accent-red-hover: #dc2626;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #2e374a;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #eab308;
+            --text-color: #f8fafc;
+            --border-color: #334155;
+            --hover-color: #334155;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
             width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
         }
 
-        /* Header Area - Fixed Layout for Left Logo & Centered Title */
-        header {
-            display: grid;
-            grid-template-columns: 80px 1fr 80px;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .header-logo {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-        }
-
-        .header-title {
+        .header {
             text-align: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .header-title h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-main);
+        .header img {
+            max-width: 130px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            color: var(--accent);
+            font-size: 24px;
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .header-title p.subtitle {
-            font-size: 0.95rem;
-            color: var(--accent-emerald);
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
-
-        /* Controls Card */
-        .controls-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .controls-top {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 280px;
-            position: relative;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-        }
-
-        .search-box input {
+        .search-bar {
             width: 100%;
-            padding: 12px 15px 12px 42px;
-            background-color: var(--bg-input);
+            padding: 12px;
+            background: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
-        .search-box input:focus {
-            border-color: var(--accent-emerald);
+        .paragraph-list {
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
         }
 
-        .discount-inputs {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .discount-group {
+        .paragraph-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            background-color: var(--bg-input);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .discount-group label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            white-space: nowrap;
-        }
-
-        .discount-group input {
-            width: 60px;
-            background: transparent;
-            border: none;
-            color: var(--accent-emerald);
-            font-weight: 700;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-        }
-
-        .controls-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
             cursor: pointer;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+            transition: background 0.2s;
         }
 
-        .btn-emerald {
-            background-color: var(--accent-emerald);
+        .paragraph-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .paragraph-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .paragraph-info {
+            flex-grow: 1;
+        }
+
+        .paragraph-title {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .paragraph-details {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .calc-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent);
             color: #000;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
         }
 
-        .btn-emerald:hover {
-            background-color: var(--accent-emerald-hover);
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-red {
-            background-color: var(--accent-red);
-            color: #fff;
-        }
-
-        .btn-red:hover {
-            background-color: var(--accent-red-hover);
-        }
-
-        .btn-blue {
-            background-color: var(--accent-blue);
-            color: #fff;
-        }
-
-        .btn-blue:hover {
+        .calc-btn:hover {
             opacity: 0.9;
         }
 
-        /* Table Area */
-        .table-container {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            background-color: var(--bg-table-header);
-            color: var(--text-muted);
-            padding: 14px 18px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        td {
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.95rem;
-        }
-
-        tr.category-row td {
-            background-color: var(--bg-category);
-            color: var(--accent-emerald);
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        tr.law-row {
-            cursor: pointer;
-            transition: background-color 0.15s;
-        }
-
-        tr.law-row:hover {
-            background-color: var(--bg-table-hover);
-        }
-
-        tr.law-row.selected {
-            background-color: rgba(16, 185, 129, 0.15);
-        }
-
-        tr.law-row.selected td:first-child {
-            border-left: 4px solid var(--accent-emerald);
-        }
-
-        .badge-he {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: var(--accent-blue);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .badge-money {
-            color: var(--accent-emerald);
-            font-weight: 600;
-        }
-
-        .badge-court {
-            background-color: rgba(239, 68, 68, 0.2);
-            color: var(--accent-red);
-            font-size: 0.75rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-weight: 600;
-        }
-
-        /* Modal / Overlay Enlarged */
-        .modal-overlay {
+        /* Modal styling */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            display: flex;
+            background: rgba(0,0,0,0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 95%;
-            max-width: 850px; /* Vergrößerte Breite */
+        .modal-content {
+            background: var(--card-bg);
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
         }
 
         .modal-header {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
 
-        .summary-box {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .summary-item {
+        .result-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 1rem;
+            font-size: 18px;
+            margin: 10px 0;
         }
 
-        .summary-item:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Details list adjusted for single-line display */
-        .details-list {
-            max-height: 380px; /* Vergrößerte Höhe */
-            overflow-y: auto;
-            overflow-x: auto;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
-            font-size: 0.9rem;
-        }
-
-        .details-item {
-            color: var(--text-main);
-            margin-bottom: 8px;
-            line-height: 1.4;
-            white-space: nowrap; /* Erzwingt alles in eine Zeile */
-        }
-
-        .details-item span.highlight {
-            color: var(--accent-emerald);
-            font-weight: 600;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
+        .close-btn {
             margin-top: 20px;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            opacity: 0.6;
+            width: 100%;
+            padding: 10px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <img src="LOGO SWAT TRANSPARENT.png" alt="SWAT Logo" class="header-logo" onerror="this.style.visibility='hidden'">
-            <div class="header-title">
-                <h1>Strafrechner</h1>
-                <p class="subtitle">Special Weapons and Tactics</p>
-            </div>
-            <div></div> <!-- Platzhalter für Symmetrie -->
-        </header>
-
-        <!-- Controls Card -->
-        <div class="controls-card">
-            <div class="controls-top">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Suche nach Paragraf, Gesetzbuch oder Straftat...">
-                </div>
-                <div class="discount-inputs">
-                    <div class="discount-group">
-                        <label for="discountMoney">Rabatt Geldstrafe (%):</label>
-                        <input type="number" id="discountMoney" min="0" max="100" value="0">
-                    </div>
-                    <div class="discount-group">
-                        <label for="discountHE">Rabatt HE (%):</label>
-                        <input type="number" id="discountHE" min="0" max="100" value="0">
-                    </div>
-                </div>
-            </div>
-
-            <div class="controls-bottom">
-                <button class="btn btn-red" id="resetBtn"><i class="fa-solid fa-rotate-right"></i> Zurücksetzen</button>
-                <button class="btn btn-emerald" id="calcBtn"><i class="fa-solid fa-calculator"></i> Berechnen</button>
-            </div>
-        </div>
-
-        <!-- Table Card -->
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 20%;">§</th>
-                        <th style="width: 50%;">Straftatbestand</th>
-                        <th style="width: 15%;">Geldstrafe</th>
-                        <th style="width: 15%;">Hafteinheiten</th>
-                    </tr>
-                </thead>
-                <tbody id="lawTableBody">
-                    <!-- Dynamic Data Insertion -->
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <div class="header">
+        <!-- Narco City Police Department Logo -->
+        <img src="https://i.ibb.co/L5k6v7F/ncpd-logo.png" alt="Narco City Police Department Logo" id="logoImg">
+        <h1>Narco City Police Department</h1>
+        <div style="color: #94a3b8; font-size: 14px;">Bußgeld- & Strafeinheitenrechner</div>
     </div>
 
-    <!-- Modal Calculation Results -->
-    <div class="modal-overlay" id="resultModal">
-        <div class="modal-card">
-            <div class="modal-header">Berechnungsergebnisse</div>
-            
-            <div class="summary-box">
-                <div class="summary-item">
-                    <span>Gesamtes Bußgeld:</span>
-                    <strong class="badge-money" id="resMoney">0$</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Gesamte Hafteinheiten:</span>
-                    <strong class="badge-he" id="resHE">0 HE</strong>
-                </div>
+    <input type="text" id="searchInput" class="search-bar" placeholder="Paragraf oder Straftatbestand suchen..." onkeyup="filterParagraphs()">
 
-                <div class="details-list" id="detailsContainer" style="display: none;">
-                    <!-- Details Dynamic -->
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="btn btn-blue" id="toggleDetailsBtn"><i class="fa-solid fa-eye"></i> Details anzeigen</button>
-                <button class="btn btn-emerald" id="copyBtn"><i class="fa-solid fa-copy"></i> Strafen kopieren</button>
-                <button class="btn btn-red" id="closeModalBtn">Schließen</button>
-            </div>
-        </div>
+    <div class="paragraph-list" id="paragraphContainer">
+        <!-- Dynamisch eingefügte Paragrafen -->
     </div>
 
-    <!-- Discrete Footer -->
-    <footer>
-        made by Stitch
-    </footer>
+    <button class="calc-btn" onclick="calculateStrafen()">Berechnen</button>
+</div>
 
-    <script>
-        // Database of Crimes Categorized
-        const laws = [
-            // StGB
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 38 Abs. 2", code: "StGB", name: "Öffentliche Aufforderung zu Straftaten", money: 20000, he: 20, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 39 Abs. 1", code: "StGB", name: "Widerstand gegen Vollstreckungsbeamte", money: 20000, he: 20, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 40 Abs. 1", code: "StGB", name: "Hausfriedensbruch", money: 20000, he: 20, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 41 Abs. 1", code: "StGB", name: "Landfriedensbruch", money: 100000, he: 100, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 42 Abs. 2", code: "StGB", name: "Anleitung zu Straftaten", money: 20000, he: 20, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 43 Abs. 1", code: "StGB", name: "Amtsanmaßung", money: 50000, he: 50, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 44 Abs. 1", code: "StGB", name: "Missbrauch von Titeln, Berufsbezeichnungen und Abzeichen", money: 25000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 45 Abs. 1", code: "StGB", name: "Belohnung und Billigung von Straftaten", money: 20000, he: 20, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 46 Abs. 1", code: "StGB", name: "Missbrauch von Notrufen", money: 40000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 47 Abs. 1", code: "StGB", name: "Vortäuschen einer Straftat", money: 15000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 48 Abs. 1", code: "StGB", name: "Tragen einer Vermummung", money: 10000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 49 Abs. 1", code: "StGB", name: "Unerlaubte Versammlung und Organisation von Menschenmengen", money: 30000, he: 35, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 50 Abs. 1", code: "StGB", name: "Betreten einer temporären Sperrzone", money: 15000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 51 Abs. 1", code: "StGB", name: "Eindringen in militärische Sperrzonen", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 52 Abs. 1", code: "StGB", name: "Verweigerung der Identitätsfeststellung", money: 15000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 53 Abs. 1", code: "StGB", name: "Ausbruch aus staatlichen Einrichtungen", money: 20000, he: 60, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 54 Abs. 1", code: "StGB", name: "Fischwilderei", money: 15000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 55 Abs. 1", code: "StGB", name: "Brandstiftung", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 56 Abs. 1", code: "StGB", name: "Herbeiführen einer Sprengstoffexplosion", money: 60000, he: 60, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 57 Abs. 1", code: "StGB", name: "Besitz von Sprengstoff", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 58 Abs. 1", code: "StGB", name: "Gefährliche Eingriffe in den Bahn-, Schiffs- und Luftverkehr", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 59 Abs. 1", code: "StGB", name: "Mord", money: 200000, he: 200, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 60 Abs. 1", code: "StGB", name: "Totschlag", money: 130000, he: 100, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 61 Abs. 1", code: "StGB", name: "Aussetzung", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 62 Abs. 1", code: "StGB", name: "Fahrlässige Tötung", money: 60000, he: 50, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 63 Abs. 1", code: "StGB", name: "Unterlassene Hilfeleistung", money: 10000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 64 Abs. 1", code: "StGB", name: "Körperverletzung", money: 15000, he: 10, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 65 Abs. 1", code: "StGB", name: "Gefährliche Körperverletzung", money: 35000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 66 Abs. 1", code: "StGB", name: "Schwere Körperverletzung", money: 40000, he: 40, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 67 Abs. 1", code: "StGB", name: "Zwangsheirat", money: 40000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 68 Abs. 1", code: "StGB", name: "Nachstellung", money: 25000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 69 Abs. 1", code: "StGB", name: "Freiheitsberaubung", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 70 Abs. 1", code: "StGB", name: "Nötigung", money: 30000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 71 Abs. 1", code: "StGB", name: "Bedrohung", money: 10000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 72 Abs. 1", code: "StGB", name: "Geiselnahme", money: 60000, he: 60, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 73 Abs. 1", code: "StGB", name: "Verletzung der Vertraulichkeit des Wortes", money: 30000, he: 0, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 74 Abs. 1", code: "StGB", name: "Verletzung des höchstpersönlichen Lebensbereichs", money: 15000, he: 25, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 75 Abs. 1", code: "StGB", name: "Offenbarung von Staatsgeheimnissen", money: 60000, he: 60, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 76 Abs. 1", code: "StGB", name: "Betrug", money: 50000, he: 0, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 77 Abs. 1", code: "StGB", name: "Sachbeschädigung", money: 25000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 78 Abs. 1", code: "StGB", name: "Diebstahl", money: 20000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 79 Abs. 1", code: "StGB", name: "Unterschlagung", money: 10000, he: 10, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 80 Abs. 1", code: "StGB", name: "Raub", money: 40000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 81 Abs. 1", code: "StGB", name: "Erpressung", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 82 Abs. 1", code: "StGB", name: "Strafvereitelung", money: 30000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 83 Abs. 1", code: "StGB", name: "Urkundenfälschung", money: 80000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 84 Abs. 1", code: "StGB", name: "Verschaffen von falschen amtlichen Ausweisen", money: 95000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 85 Abs. 1", code: "StGB", name: "Bestechung", money: 40000, he: 40, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 86 Abs. 1", code: "StGB", name: "Wucher", money: 40000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 87 Abs. 1", code: "StGB", name: "Schwarzgeldwäsche", money: 40000, he: 30, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 88 Abs. 1", code: "StGB", name: "Schwarzgeldbesitz", money: 30000, he: 25, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 89 Abs. 1", code: "StGB", name: "Falsche uneidliche Aussage", money: 50000, he: 40, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 90 Abs. 1", code: "StGB", name: "Meineid", money: 100000, he: 100, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 91 Abs. 1", code: "StGB", name: "Verleitung zur Falschaussage", money: 25000, he: 20, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 92 Abs. 1", code: "StGB", name: "Falsche Verdächtigung", money: 40000, he: 40, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 93 Abs. 2", code: "StGB", name: "Beleidigung", money: 10000, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 94 Abs. 1", code: "StGB", name: "Üble Nachrede", money: 25000, he: 25, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 95 Abs. 1", code: "StGB", name: "Verleumdung", money: 35000, he: 35, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 96 Abs. 1", code: "StGB", name: "Bestechlichkeit im Amt", money: 90000, he: 85, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 97 Abs. 1", code: "StGB", name: "Rechtsbeugung", money: 45000, he: 40, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 98 Abs. 1", code: "StGB", name: "Körperverletzung im Amt", money: 20000, he: 20, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 99 Abs. 1", code: "StGB", name: "Aussageerpressung", money: 60000, he: 60, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 100 Abs. 1", code: "StGB", name: "Verfolgung Unschuldiger", money: 40000, he: 40, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 101 Abs. 1", code: "StGB", name: "Vollstreckung gegen Unschuldige", money: 50000, he: 50, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 102 Abs. 1", code: "StGB", name: "Falschbeurkundung im Amt", money: 75000, he: 20, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 103 Abs. 1", code: "StGB", name: "Verletzung des Dienstgeheimnisses", money: 30000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 104 Abs. 1", code: "StGB", name: "Parteiverrat", money: 40000, he: 40, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 105 Abs. 1", code: "StGB", name: "Verleitung eines Untergebenen zu einer Straftat", money: 0, he: 0, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 106 Abs. 1", code: "StGB", name: "Missachtung des Gerichts", money: 30000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 107 Abs. 1", code: "StGB", name: "Strafvereitelung im Amt", money: 45000, he: 45, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 108 Abs. 1", code: "StGB", name: "Verwahrungsbruch", money: 35000, he: 35, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 109 Abs. 1", code: "StGB", name: "Verletzung des Fernmeldegeheimnisses im Amt", money: 30000, he: 30, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 110 Abs. 1", code: "StGB", name: "Allgemeiner Amtsmissbrauch", money: 35000, he: 35, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 111 Abs. 1", code: "StGB", name: "Nötigung von Verfassungsorganen", money: 100000, he: 100, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 112 Abs. 1", code: "StGB", name: "Wahlbehinderung", money: 40000, he: 40, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 113 Abs. 1", code: "StGB", name: "Wahlfälschung", money: 50000, he: 50, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 114 Abs. 1", code: "StGB", name: "Wählernötigung", money: 100000, he: 100, court: true },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 115 Abs. 1", code: "StGB", name: "Hochverrat", money: 200000, he: 200, court: true },
+<!-- Ergebnis Modal -->
+<div class="modal" id="resultModal">
+    <div class="modal-content">
+        <div class="modal-header">Gesamtstrafe</div>
+        <div id="selectedList" style="font-size: 14px; color: #cbd5e1; margin-bottom: 15px;"></div>
+        <div class="result-row">
+            <span>Gesamte Geldstrafe:</span>
+            <span id="totalFine" style="color: #4ade80; font-weight: bold;">0$</span>
+        </div>
+        <div class="result-row">
+            <span>Hafteinheiten (HE):</span>
+            <span id="totalHE" style="color: #f87171; font-weight: bold;">0 HE</span>
+        </div>
+        <button class="close-btn" onclick="closeModal()">Schließen</button>
+    </div>
+</div>
 
-            // BtMG
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 13 Abs. 1", code: "BtMG", name: "Herstellung von Betäubungsmitteln", money: 40000, he: 25, court: false },
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 14 Abs. 1", code: "BtMG", name: "Verkauf von Betäubungsmitteln", money: 40000, he: 25, court: false },
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 15 Abs. 1", code: "BtMG", name: "Besitz von Betäubungsmitteln", money: 25000, he: 10, court: false },
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 16 Abs. 1", code: "BtMG", name: "Bereitstellung von Infrastruktur und logistische Förderung", money: 50000, he: 35, court: false },
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 17 Abs. 1", code: "BtMG", name: "Missbrauch von verschreibungspflichtigen Medikamenten", money: 25000, he: 0, court: false },
-            { cat: "Betäubungsmittelgesetz (BtMG)", para: "§ 18 Abs. 1", code: "BtMG", name: "Unerlaubtes Verschreiben durch medizinisches Fachpersonal", money: 50000, he: 30, court: true },
+<script>
+const paragrafen = [
+    { section: "§ 9", title: "Fahren ohne Fahrerlaubnis (Abs. 1)", fine: 10000, he: 0 },
+    { section: "§ 9", title: "Fahren ohne Fahrerlaubnis (Abs. 2 - Führerschein verwahrt/beschlagnahmt)", fine: 20000, he: 10 },
+    { section: "§ 9", title: "Fahren ohne Fahrerlaubnis (Abs. 3 - Nichtmitführen)", fine: 2500, he: 0 },
+    { section: "§ 10", title: "Kennzeichenmissbrauch", fine: 40000, he: 25 },
+    { section: "§ 11", title: "Missbräuchliches Ausgeben oder Besitz von Kennzeichen", fine: 20000, he: 20 },
+    { section: "§ 12", title: "Lärmbelästigung mit Kraftfahrzeugen", fine: 15000, he: 0 },
+    { section: "§ 13", title: "Unerlaubtes Entfernen vom Unfallort mit Sachschaden", fine: 20000, he: 0 },
+    { section: "§ 14", title: "Unerlaubtes Entfernen vom Unfallort mit Personenschaden", fine: 40000, he: 10 },
+    { section: "§ 15", title: "Verursachen eines Sachschadens", fine: 10000, he: 0 },
+    { section: "§ 16", title: "Vorschriftswidriges Fahren abseits der Fahrbahn", fine: 10000, he: 0 },
+    { section: "§ 17", title: "Fahren auf der falschen Fahrbahnseite", fine: 12500, he: 0 },
+    { section: "§ 18", title: "Fahren auf der falschen Fahrbahnseite - Highway", fine: 25000, he: 0 },
+    { section: "§ 19", title: "Fahren auf der falschen Fahrbahnseite mit Unfall", fine: 35000, he: 0 },
+    { section: "§ 20", title: "Verursachen eines Unfalls unter Missachtung der Sorgfaltspflicht", fine: 25000, he: 0 },
+    { section: "§ 21", title: "Geschwindigkeitsüberschreitung - innerorts", fine: 10000, he: 0 },
+    { section: "§ 22", title: "Geschwindigkeitsüberschreitung - außerorts", fine: 15000, he: 0 },
+    { section: "§ 23", title: "Halten oder Parken im Bereich einer Verkehrsmündung, -kreuzung oder Kurve", fine: 5000, he: 0 },
+    { section: "§ 24", title: "Halten oder Parken im Bereich von Ein- und Ausfahrten für Einsatzkräfte", fine: 30000, he: 0 },
+    { section: "§ 25", title: "Halten oder Parken im Fahrbahnbereich - innerorts", fine: 10000, he: 0 },
+    { section: "§ 26", title: "Halten oder Parken im Fahrbahnbereich - außerorts", fine: 20000, he: 0 },
+    { section: "§ 27", title: "Halten oder Parken im Fahrbahnbereich - Highway", fine: 30000, he: 0 },
+    { section: "§ 28", title: "Halten oder Parken auf Fußwegen, Sperrflächen, Grünstreifen", fine: 10000, he: 0 },
+    { section: "§ 29", title: "Parken in Bereichen mit roter Randsteinmarkierung", fine: 10000, he: 0 },
+    { section: "§ 30", title: "Mangelnde Beleuchtung in Abhängigkeit der Lichtverhältnisse", fine: 7500, he: 0 },
+    { section: "§ 31", title: "Beförderung von Personen ohne Sitzgelegenheit", fine: 15000, he: 0 },
+    { section: "§ 32", title: "Unterbrechen einer geschlossenen Fahrzeugkolonne", fine: 20000, he: 0 },
+    { section: "§ 33", title: "Verkehrswidriges Führen einer geschlossenen Fahrzeugkolonne als Verantwortlicher", fine: 40000, he: 0 },
+    { section: "§ 34", title: "Missachten mobiler polizeilicher Absperreinrichtungen", fine: 25000, he: 0 },
+    { section: "§ 35", title: "Missachten von Einsatzkräften mit eingeschaltetem Blaulicht", fine: 10000, he: 0 },
+    { section: "§ 36", title: "Missachtung der Sorgfalt an erkennbaren Einsatzorten mit Unfall", fine: 20000, he: 0 },
+    { section: "§ 37", title: "Nicht Mitführen von Reparatur und Erste-Hilfe Material", fine: 5000, he: 0 },
+    { section: "§ 38", title: "Führen eines Kraftfahrzeugs unter Drogeneinfluss", fine: 15000, he: 10 },
+    { section: "§ 39", title: "Führen eines Kraftfahrzeugs unter Drogeneinfluss mit Gefährdung", fine: 20000, he: 15 },
+    { section: "§ 40", title: "Führen eines Kraftfahrzeugs unter Drogeneinfluss mit Unfall", fine: 25000, he: 20 },
+    { section: "§ 41", title: "Teilnahme an einem Kraftfahrzeugrennen", fine: 20000, he: 0 },
+    { section: "§ 42", title: "Teilnahme an einem Kraftfahrzeugrennen mit Gefährdung", fine: 20000, he: 10 },
+    { section: "§ 43", title: "Teilnahme an einem Kraftfahrzeugrennen mit Unfall", fine: 25000, he: 20 },
+    { section: "§ 44", title: "Verwendung unerlaubter Fahrzeugmodifikationen (z.B. Nitro)", fine: 15000, he: 0 },
+    { section: "§ 45", title: "Fahren eines Kraftfahrzeugs unter Beschädigung der Sicherheitseinrichtungen", fine: 10000, he: 0 },
+    { section: "§ 46", title: "Gefährlicher Eingriff in den Straßenverkehr", fine: 20000, he: 20 },
+    { section: "§ 47", title: "Unbefugter Gebrauch eines Fahrzeugs", fine: 12500, he: 0 }
+];
 
-            // StVO
-            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 9 Abs. 1", code: "StVO", name: "Fahren ohne Fahrerlaubnis", money: 10000, he: 0, court: false },
-            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 9 Abs. 2", code: "StVO", name: "Fahren trotz Verwahrung/Beschlagnahme des Führerscheins", money: 20000, he: 10, court: false },
-            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 9 Abs. 3", code: "StVO", name: "Nichtmitführen der Fahrerlaubnis", money: 2500, he: 0, court: false },
-            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 10", code: "StVO", name: "Kennzeichenmissbrauch", money: 40000, he: 25, court: false },
-            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 11", code: "StVO", name: "Missbräuchliches Ausgeben oder Besitz von Kennzeichen", money: 20000, he: 20, court: false },
+function loadParagraphs() {
+    const container = document.getElementById('paragraphContainer');
+    container.innerHTML = '';
+    
+    paragrafen.forEach((p, index) => {
+        const item = document.createElement('div');
+        item.className = 'paragraph-item';
+        item.innerHTML = `
+            <input type="checkbox" id="p-${index}" data-fine="${p.fine}" data-he="${p.he}" data-title="${p.section} - ${p.title}">
+            <label for="p-${index}" class="paragraph-info">
+                <div class="paragraph-title">${p.section} ${p.title}</div>
+                <div class="paragraph-details">Geldstrafe: ${p.fine.toLocaleString()}$ | Hafteinheiten: ${p.he} HE</div>
+            </label>
+        `;
+        container.appendChild(item);
+    });
+}
 
-            // WaffG
-            { cat: "Waffengesetz (WaffG)", para: "§ 5", code: "WaffG", name: "Besitz von illegalen Langwaffen", money: 25000, he: 20, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 6", code: "WaffG", name: "Besitz von illegalen Kurzwaffen", money: 15000, he: 20, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 7", code: "WaffG", name: "Besitz von Staatswaffen", money: 30000, he: 30, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 8", code: "WaffG", name: "Besitz von illegalen Stich- und Nahkampfwaffen", money: 15000, he: 15, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 9", code: "WaffG", name: "Besitz von Waffenteilen und Modifikationen", money: 10000, he: 15, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 10", code: "WaffG", name: "Verbot des Führens bewaffneter Kraftfahrzeuge im öffentlichen Raum", money: 50000, he: 60, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 14", code: "WaffG", name: "Tragen einer Waffe in Waffenverbotszonen", money: 10000, he: 0, court: false },
-            { cat: "Waffengesetz (WaffG)", para: "§ 15", code: "WaffG", name: "Unbegründete Schussabgabe", money: 12500, he: 0, court: false }
-        ];
-
-        let selectedIndices = new Set();
-
-        // Elements
-        const tableBody = document.getElementById('lawTableBody');
-        const searchInput = document.getElementById('searchInput');
-        const discountMoneyInput = document.getElementById('discountMoney');
-        const discountHEInput = document.getElementById('discountHE');
-        const calcBtn = document.getElementById('calcBtn');
-        const resetBtn = document.getElementById('resetBtn');
-
-        const modal = document.getElementById('resultModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const toggleDetailsBtn = document.getElementById('toggleDetailsBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        
-        const resMoney = document.getElementById('resMoney');
-        const resHE = document.getElementById('resHE');
-        const detailsContainer = document.getElementById('detailsContainer');
-
-        // Render Table
-        function renderTable(filter = "") {
-            tableBody.innerHTML = "";
-            let currentCategory = "";
-
-            laws.forEach((law, index) => {
-                const searchStr = `${law.para} ${law.code} ${law.name} ${law.cat}`.toLowerCase();
-                
-                if (searchStr.includes(filter.toLowerCase())) {
-                    // Category Header
-                    if (law.cat !== currentCategory && filter === "") {
-                        currentCategory = law.cat;
-                        const catRow = document.createElement('tr');
-                        catRow.className = 'category-row';
-                        catRow.innerHTML = `<td colspan="4">${currentCategory}</td>`;
-                        tableBody.appendChild(catRow);
-                    }
-
-                    const row = document.createElement('tr');
-                    row.className = `law-row ${selectedIndices.has(index) ? 'selected' : ''}`;
-                    row.onclick = () => toggleSelect(index, row);
-
-                    row.innerHTML = `
-                        <td><strong>${law.para} ${law.code}</strong> ${law.court ? '<span class="badge-court">Gerichtspflicht</span>' : ''}</td>
-                        <td>${law.name}</td>
-                        <td class="badge-money">${law.money > 0 ? law.money.toLocaleString('de-DE') + '$' : 'Nach Ermessen'}</td>
-                        <td><span class="badge-he">${law.he} HE</span></td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            });
+function filterParagraphs() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const items = document.querySelectorAll('.paragraph-item');
+    
+    items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if (text.includes(query)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
         }
+    });
+}
 
-        // Toggle Selection
-        function toggleSelect(index, rowElement) {
-            if (selectedIndices.has(index)) {
-                selectedIndices.delete(index);
-                rowElement.classList.remove('selected');
-            } else {
-                selectedIndices.add(index);
-                rowElement.classList.add('selected');
-            }
-        }
+function calculateStrafen() {
+    let totalFine = 0;
+    let totalHE = 0;
+    let selectedText = [];
 
-        // Search Filter
-        searchInput.addEventListener('input', (e) => {
-            renderTable(e.target.value);
-        });
+    const checkboxes = document.querySelectorAll('.paragraph-item input[type="checkbox"]:checked');
+    
+    checkboxes.forEach(cb => {
+        totalFine += parseInt(cb.getAttribute('data-fine'));
+        totalHE += parseInt(cb.getAttribute('data-he'));
+        selectedText.push("• " + cb.getAttribute('data-title'));
+    });
 
-        // Calculate
-        calcBtn.addEventListener('click', () => {
-            let totalMoney = 0;
-            let totalHE = 0;
-            let detailsHTML = "";
+    document.getElementById('totalFine').innerText = totalFine.toLocaleString() + "$";
+    document.getElementById('totalHE').innerText = totalHE + " HE";
+    document.getElementById('selectedList').innerHTML = selectedText.length > 0 
+        ? "<b>Ausgewählte Delikte:</b><br>" + selectedText.join("<br>") 
+        : "Keine Delikte ausgewählt";
 
-            const discMoney = Math.min(100, Math.max(0, parseFloat(discountMoneyInput.value) || 0));
-            const discHE = Math.min(100, Math.max(0, parseFloat(discountHEInput.value) || 0));
+    document.getElementById('resultModal').style.display = 'flex';
+}
 
-            // Extract selected laws and sort by money descending
-            const selectedLaws = Array.from(selectedIndices)
-                .map(index => laws[index])
-                .sort((a, b) => b.money - a.money);
+function closeModal() {
+    document.getElementById('resultModal').style.display = 'none';
+}
 
-            let count = 1;
-            selectedLaws.forEach(law => {
-                totalMoney += law.money;
-                totalHE += law.he;
+// Initialisieren
+loadParagraphs();
+</script>
 
-                detailsHTML += `
-                    <div class="details-item">
-                        ${count++}. ${law.name} <span class="highlight">${law.para} ${law.code}</span>: <strong>(${law.money.toLocaleString('de-DE')}$, ${law.he} HE)</strong> ${law.court ? '<span class="badge-court">Gerichtspflicht</span>' : ''}
-                    </div>
-                `;
-            });
-
-            // Apply discounts
-            totalMoney = totalMoney * (1 - discMoney / 100);
-            totalHE = totalHE * (1 - discHE / 100);
-
-            resMoney.innerText = `${Math.round(totalMoney).toLocaleString('de-DE')}$`;
-            resHE.innerText = `${Math.round(totalHE)} HE`;
-            
-            detailsContainer.innerHTML = detailsHTML || "<div class='details-item'>Keine Straftaten ausgewählt.</div>";
-
-            modal.classList.add('active');
-        });
-
-        // Reset
-        resetBtn.addEventListener('click', () => {
-            selectedIndices.clear();
-            discountMoneyInput.value = 0;
-            discountHEInput.value = 0;
-            searchInput.value = "";
-            renderTable();
-        });
-
-        // Toggle Details
-        toggleDetailsBtn.addEventListener('click', () => {
-            if (detailsContainer.style.display === "none") {
-                detailsContainer.style.display = "block";
-                toggleDetailsBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Details ausblenden';
-            } else {
-                detailsContainer.style.display = "none";
-                toggleDetailsBtn.innerHTML = '<i class="fa-solid fa-eye"></i> Details anzeigen';
-            }
-        });
-
-        // Copy Results to Clipboard
-        copyBtn.addEventListener('click', () => {
-            let textToCopy = `=== STRAFRECHNER SW&T ===\n`;
-            textToCopy += `Gesamt Bußgeld: ${resMoney.innerText}\n`;
-            textToCopy += `Gesamt HE: ${resHE.innerText}\n\n`;
-            textToCopy += `Ausgewählte Straftaten (nach Höhe sortiert):\n`;
-
-            const selectedLaws = Array.from(selectedIndices)
-                .map(index => laws[index])
-                .sort((a, b) => b.money - a.money);
-
-            let count = 1;
-            selectedLaws.forEach(law => {
-                textToCopy += `${count++}. ${law.name} ${law.para} ${law.code} (${law.money.toLocaleString('de-DE')}$, ${law.he} HE)${law.court ? ' [Gerichtspflicht]' : ''}\n`;
-            });
-
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopiert!';
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                }, 1500);
-            });
-        });
-
-        // Close Modal
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-
-        // Initialize
-        renderTable();
-    </script>
 </body>
 </html>
