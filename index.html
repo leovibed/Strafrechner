@@ -48,7 +48,7 @@
             width: 100%;
         }
 
-        /* Header Area - Fixed Layout for Left Logo & Centered Title */
+        /* Header Area */
         header {
             display: grid;
             grid-template-columns: 80px 1fr 80px;
@@ -355,7 +355,6 @@
             margin-bottom: 0;
         }
 
-        /* Details list adjusted for single-line display */
         .details-list {
             max-height: 380px;
             overflow-y: auto;
@@ -385,7 +384,6 @@
             margin-top: 20px;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 20px 0;
@@ -404,10 +402,9 @@
                 <h1>Strafrechner</h1>
                 <p class="subtitle">Narco City Police Department</p>
             </div>
-            <div></div> <!-- Platzhalter für Symmetrie -->
+            <div></div>
         </header>
 
-        <!-- Controls Card -->
         <div class="controls-card">
             <div class="controls-top">
                 <div class="search-box">
@@ -432,7 +429,6 @@
             </div>
         </div>
 
-        <!-- Table Card -->
         <div class="table-container">
             <table>
                 <thead>
@@ -450,7 +446,6 @@
         </div>
     </div>
 
-    <!-- Modal Calculation Results -->
     <div class="modal-overlay" id="resultModal">
         <div class="modal-card">
             <div class="modal-header">Berechnungsergebnisse</div>
@@ -478,34 +473,15 @@
         </div>
     </div>
 
-    <!-- Discrete Footer -->
     <footer>
         made by Stitch
     </footer>
 
     <script>
-        // Database of Crimes Categorized
         const laws = [
             // Strafgesetzbuch (StGB) Ergänzungen (§ 1 - § 37)
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 1", code: "StGB", name: "Keine Strafe ohne Gesetz", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 2", code: "StGB", name: "Geltungsbereich für Inlands- und Auslandstaten", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 3", code: "StGB", name: "Begehung durch Unterlassen", money: 10000, he: 10, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 4", code: "StGB", name: "Vorsätzliches und fahrlässiges Handeln", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 5", code: "StGB", name: "Irrtum über Umstände und Rechtmäßigkeit", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 6", code: "StGB", name: "Notwehr und Notstand", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 7", code: "StGB", name: "Schuldfähigkeit und Zurechnungsfähigkeit", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 8", code: "StGB", name: "Versuch einer Straftat", money: 10000, he: 10, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 9", code: "StGB", name: "Rücktritt vom Versuch", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 10", code: "StGB", name: "Täterschaft und Mittelbare Täterschaft", money: 15000, he: 15, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 11", code: "StGB", name: "Mittäterschaft", money: 15000, he: 15, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 12", code: "StGB", name: "Anstiftung", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 13", code: "StGB", name: "Beihilfe", money: 10000, he: 10, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 14", code: "StGB", name: "Strafe und Bemessungsgrundsätze", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 15", code: "StGB", name: "Geldstrafe und Ersatzfreiheitsstrafe", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 16", code: "StGB", name: "Freiheitsstrafe und Hafteinheiten", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 17", code: "StGB", name: "Bewährung und Führungsauflagen", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 18", code: "StGB", name: "Verfall und Einziehung von Gegenständen", money: 0, he: 0, court: false },
-            { cat: "Strafgesetzbuch (StGB)", para: "§ 19", code: "StGB", name: "Verjährung von Straftaten", money: 0, he: 0, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 20", code: "StGB", name: "Friedensverrat und Gefährdung des Staates", money: 150000, he: 150, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 21", code: "StGB", name: "Gefährdung der äußeren Sicherheit", money: 100000, he: 100, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 22", code: "StGB", name: "Landesverrat", money: 200000, he: 200, court: true },
@@ -525,7 +501,7 @@
             { cat: "Strafgesetzbuch (StGB)", para: "§ 36", code: "StGB", name: "Unterstützung krimineller Vereinigungen", money: 50000, he: 50, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 37", code: "StGB", name: "Gefährdung des öffentlichen Friedens", money: 20000, he: 20, court: false },
             
-            // StGB ab § 38
+            // StGB ab § 38 (Neu eingefügt nach Vorgabe)
             { cat: "Strafgesetzbuch (StGB)", para: "§ 38 Abs. 2", code: "StGB", name: "Öffentliche Aufforderung zu Straftaten", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 39 Abs. 1", code: "StGB", name: "Widerstand gegen Vollstreckungsbeamte", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 40 Abs. 1", code: "StGB", name: "Hausfriedensbruch", money: 20000, he: 20, court: false },
@@ -669,7 +645,6 @@
 
         let selectedIndices = new Set();
 
-        // Elements
         const tableBody = document.getElementById('lawTableBody');
         const searchInput = document.getElementById('searchInput');
         const discountMoneyInput = document.getElementById('discountMoney');
@@ -686,7 +661,6 @@
         const resHE = document.getElementById('resHE');
         const detailsContainer = document.getElementById('detailsContainer');
 
-        // Render Table
         function renderTable(filter = "") {
             tableBody.innerHTML = "";
             let currentCategory = "";
@@ -695,7 +669,6 @@
                 const searchStr = `${law.para} ${law.code} ${law.name} ${law.cat}`.toLowerCase();
                 
                 if (searchStr.includes(filter.toLowerCase())) {
-                    // Category Header
                     if (law.cat !== currentCategory && filter === "") {
                         currentCategory = law.cat;
                         const catRow = document.createElement('tr');
@@ -719,7 +692,6 @@
             });
         }
 
-        // Toggle Selection
         function toggleSelect(index, rowElement) {
             if (selectedIndices.has(index)) {
                 selectedIndices.delete(index);
@@ -730,12 +702,10 @@
             }
         }
 
-        // Live Search Filter
         searchInput.addEventListener('input', (e) => {
             renderTable(e.target.value);
         });
 
-        // Calculate Modal logic
         calcBtn.addEventListener('click', () => {
             let totalMoney = 0;
             let totalHE = 0;
@@ -749,14 +719,12 @@
                 totalMoney += item.money;
                 totalHE += item.he;
 
-                // Single line details
                 const detailRow = document.createElement('div');
                 detailRow.className = 'details-item';
-                detailRow.innerHTML = `<strong>${item.para} ${item.code}</strong> ${item.name} — <span class="highlight">${item.money.toLocaleString('de-DE')}$</span> | <span class="highlight">${item.he} HE</span>`;
+                detailRow.innerHTML = `<strong>${item.para} ${item.code}</strong> ${item.name} — <span class="highlight">${item.money > 0 ? item.money.toLocaleString('de-DE') + '$' : 'Ermessen'}</span> | <span class="highlight">${item.he} HE</span>`;
                 detailsContainer.appendChild(detailRow);
             });
 
-            // Apply discounts
             const finalMoney = Math.round(totalMoney * (1 - discMoney / 100));
             const finalHE = Math.round(totalHE * (1 - discHE / 100));
 
@@ -766,12 +734,10 @@
             modal.classList.add('active');
         });
 
-        // Close Modal
         closeModalBtn.addEventListener('click', () => {
             modal.classList.remove('active');
         });
 
-        // Toggle Details Display
         toggleDetailsBtn.addEventListener('click', () => {
             if (detailsContainer.style.display === 'none') {
                 detailsContainer.style.display = 'block';
@@ -782,12 +748,11 @@
             }
         });
 
-        // Copy Result Summary
         copyBtn.addEventListener('click', () => {
             let summaryText = `--- STRAFRECHNER NCPD ---\n`;
             selectedIndices.forEach(index => {
                 const item = laws[index];
-                summaryText += `${item.para} ${item.code} - ${item.name} (${item.money.toLocaleString('de-DE')}$ | ${item.he} HE)\n`;
+                summaryText += `${item.para} ${item.code} - ${item.name} (${item.money > 0 ? item.money.toLocaleString('de-DE') + '$' : 'Ermessen'} | ${item.he} HE)\n`;
             });
             summaryText += `---------------------------\n`;
             summaryText += `Gesamt Geldstrafe: ${resMoney.innerText}\n`;
@@ -800,7 +765,6 @@
             });
         });
 
-        // Reset Selection & Inputs
         resetBtn.addEventListener('click', () => {
             selectedIndices.clear();
             discountMoneyInput.value = 0;
@@ -809,7 +773,6 @@
             renderTable();
         });
 
-        // Initial Initialization
         renderTable();
     </script>
 </body>
