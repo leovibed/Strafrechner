@@ -397,7 +397,7 @@
 
     <div class="container">
         <header>
-            <img src="image_19_2.jpg" alt="NCPD Logo" class="header-logo" onerror="this.style.visibility='hidden'">
+            <img src="image_19_3.jpg" alt="NCPD Logo" class="header-logo" onerror="this.style.visibility='hidden'">
             <div class="header-title">
                 <h1>Strafrechner</h1>
                 <p class="subtitle">Narco City Police Department</p>
@@ -480,8 +480,25 @@
     <script>
         const laws = [
             // Strafgesetzbuch (StGB) Ergänzungen (§ 1 - § 37)
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 1", code: "StGB", name: "Keine Strafe ohne Gesetz", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 2", code: "StGB", name: "Geltungsbereich für Inlands- und Auslandstaten", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 3", code: "StGB", name: "Begehung durch Unterlassen", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 4", code: "StGB", name: "Vorsätzliches und fahrlässiges Handeln", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 5", code: "StGB", name: "Irrtum über Umstände und Rechtmäßigkeit", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 6", code: "StGB", name: "Notwehr und Notstand", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 7", code: "StGB", name: "Schuldfähigkeit und Zurechnungsfähigkeit", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 8", code: "StGB", name: "Versuch einer Straftat", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 9", code: "StGB", name: "Rücktritt vom Versuch", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 10", code: "StGB", name: "Täterschaft und Mittelbare Täterschaft", money: 15000, he: 15, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 11", code: "StGB", name: "Mittäterschaft", money: 15000, he: 15, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 12", code: "StGB", name: "Anstiftung", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 13", code: "StGB", name: "Beihilfe", money: 10000, he: 10, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 14", code: "StGB", name: "Strafe und Bemessungsgrundsätze", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 15", code: "StGB", name: "Geldstrafe und Ersatzfreiheitsstrafe", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 16", code: "StGB", name: "Freiheitsstrafe und Hafteinheiten", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 17", code: "StGB", name: "Bewährung und Führungsauflagen", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 18", code: "StGB", name: "Verfall und Einziehung von Gegenständen", money: 0, he: 0, court: false },
+            { cat: "Strafgesetzbuch (StGB)", para: "§ 19", code: "StGB", name: "Verjährung von Straftaten", money: 0, he: 0, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 20", code: "StGB", name: "Friedensverrat und Gefährdung des Staates", money: 150000, he: 150, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 21", code: "StGB", name: "Gefährdung der äußeren Sicherheit", money: 100000, he: 100, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 22", code: "StGB", name: "Landesverrat", money: 200000, he: 200, court: true },
@@ -500,8 +517,6 @@
             { cat: "Strafgesetzbuch (StGB)", para: "§ 35", code: "StGB", name: "Bildung terroristischer Vereinigungen", money: 200000, he: 200, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 36", code: "StGB", name: "Unterstützung krimineller Vereinigungen", money: 50000, he: 50, court: true },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 37", code: "StGB", name: "Gefährdung des öffentlichen Friedens", money: 20000, he: 20, court: false },
-            
-            // StGB ab § 38 (Neu eingefügt nach Vorgabe)
             { cat: "Strafgesetzbuch (StGB)", para: "§ 38 Abs. 2", code: "StGB", name: "Öffentliche Aufforderung zu Straftaten", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 39 Abs. 1", code: "StGB", name: "Widerstand gegen Vollstreckungsbeamte", money: 20000, he: 20, court: false },
             { cat: "Strafgesetzbuch (StGB)", para: "§ 40 Abs. 1", code: "StGB", name: "Hausfriedensbruch", money: 20000, he: 20, court: false },
@@ -614,11 +629,13 @@
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 28", code: "StVO", name: "Halten oder Parken auf Fußwegen, Sperrflächen, Grünstreifen", money: 10000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 29", code: "StVO", name: "Parken in Bereichen mit roter Randsteinmarkierung", money: 10000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 30", code: "StVO", name: "Mangelnde Beleuchtung in Abhängigkeit der Lichtverhältnisse", money: 7500, he: 0, court: false },
+            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 31", code: "StVO", name: "Beförderung von Personen ohne Sitzgelegenheit", money: 15000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 32", code: "StVO", name: "Unterbrechen einer geschlossenen Fahrzeugkolonne", money: 20000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 33", code: "StVO", name: "Verkehrswidriges Führen einer geschlossenen Fahrzeugkolonne als Verantwortlicher", money: 40000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 34", code: "StVO", name: "Missachten mobiler polizeilicher Absperreinrichtungen", money: 25000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 35", code: "StVO", name: "Missachten von Einsatzkräften mit eingeschaltetem Blaulicht", money: 10000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 36", code: "StVO", name: "Missachtung der Sorgfalt an erkennbaren Einsatzorten mit Unfall", money: 20000, he: 0, court: false },
+            { cat: "Straßenverkehrsordnung (StVO)", para: "§ 37", code: "StVO", name: "Nicht Mitführen von Reparatur und Erste-Hilfe Material", money: 5000, he: 0, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 38", code: "StVO", name: "Führen eines Kraftfahrzeugs unter Drogeneinfluss", money: 15000, he: 10, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 39", code: "StVO", name: "Führen eines Kraftfahrzeugs unter Drogeneinfluss mit Gefährdung", money: 20000, he: 15, court: false },
             { cat: "Straßenverkehrsordnung (StVO)", para: "§ 40", code: "StVO", name: "Führen eines Kraftfahrzeugs unter Drogeneinfluss mit Unfall", money: 25000, he: 20, court: false },
